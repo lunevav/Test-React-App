@@ -1,122 +1,74 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import './App.css';
+import { connect } from "react-redux";
 
+// @REMOTES
+import HelloWorld from './HelloWorld';
 
-// @REMOTE COMPONENTS
-import UIElement from './UIElement/UIElement';
-import ExampleComponent from './UIElement/ExampleComponent';
-
-const users = [
-    {
-        name: "Jake",
-        date: new Date()
-    },
-    {
-        name: "Kate",
-        date: new Date()
-    },
-    {
-        name: "Yalla",
-        date: new Date()
-    },
-    {
-        name: "Beseder",
-        date: new Date()
-    }
-];
-
-for (let i = 0; i < 2; i++) {
-    users.push({
-        name: `sasha${i}`,
-        date: new Date()
-    })
-}
+//ACTIONS
+import { updateValue, getUsers } from './actions/actions';
+import getUsersReducer from "./reducers/getUsersReducer";
 
 class App extends Component {
-    constructor() {
-        super();
+
+    constructor(props) {
+        super(props);
 
         this.state = {
-            clickedItem: "no user selected",
-            searchValue: "",
-            currentStyle: "item",
-            activeItemName: ""
+            sliceValue: 5
         }
     }
 
-    getValueFromItem = (userData) => {
-        console.log(userData);
-        this.setState({
-            clickedItem: userData
-        });
+    test = () =>  {
+      this.props.updateValue("hello world");
     }
 
-    changeColor = (data) => {
-        console.log(data);
-        this.setState({
-            currentStyle: "itemRED",
-            activeItemName: data
-
-        })
+    MY_TEST_GET = () =>  {
+        this.props.getUsers();
+        getUsers()
     }
 
-    search = (e) => {
-        const { value } = e.target;
-        this.setState({
-            searchValue: value.toLowerCase()
-        })
+    loadMore = () => {
+        const data = this.state.sliceValue;
     }
 
 
   render() {
-    console.log("[App][Render]");
-    const myUsers = users ? users
-        .filter(obj => obj.name
-            .toLowerCase()
-            .indexOf(this.state.searchValue) > -1)
-        .map((user, key ) => {
-        return(
-            <UIElement
-                userName={user.name}
-                searchValue={this.state.searchValue}
-                changeColor={() => this.changeColor(user.name)}
-                activeItemName={this.state.activeItemName}
-                key={key}
-                UIElementStyle={this.state.currentStyle}
-                value={user.name}
-            />
+    const { pending, success, rejected, response, error } = this.props.users;
+    const users = success && response ? response
+        .slice(0, 5)
+        .map(item => (
+            <div key={item.id}>
+                {item.title}
+            </div>
         )
-    }) : "No users";
+    ) : <div>NO USERS</div>
     return (
       <div className="App">
-          <iframe
-              src="www.google.com" width="468" height="60" align="left">
-              Ваш браузер не поддерживает плавающие фреймы!
-          </iframe>
-
-          <div>
-              <ExampleComponent
-                  value={this.state.searchValue}
-              />
-          </div>
-          <div>
-              <input
-                  type="text"
-                  placeholder="Search"
-                  onChange={this.search}
-              />
-          </div>
-          <div>
-              {myUsers}
-              <div>{this.state.clickedItem}</div>
-
-          </div>
+          {users}
+          <h1>{this.props.caclValue.value}</h1>
+          <button onClick={this.test}>CLICK</button>
+          <button onClick={this.MY_TEST_GET}>GET USERS</button>
+          <h1>{pending ? "LOADING...." : ""}</h1>
+          <h1>{rejected ? "ERROR" : ""}</h1>
+          <h1>{success ? "YEEEE" : ""}</h1>
+          <h1>{rejected ? error.stack : ""}</h1>
       </div>
     );
   }
 }
 
-export default App;
+const mapStateToProps = state => {
+    return {
+        caclValue: state.calcReducer,
+        users: state.getUsersReducer
+    };
+};
 
-// GOOGLE CHROME V GOOGLE CHROME
+const mapDispatchToProps = dispatch => ({
+    updateValue: (value) => dispatch(updateValue(value)),
+    getUsers: () => dispatch(getUsers())
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
+
