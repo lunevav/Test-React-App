@@ -17,17 +17,15 @@ export const getUsers = () =>
             GET_USERS_PENDING
         });
         axios.get(GET_USERS_ENDPOINT)
-            .then((response) => {
-                dispatch({
-                    type: GET_USERS_SUCCESS,
-                    payload: response.data
-                });
+            .then((response) => {dispatch({
+                type: GET_USERS_SUCCESS,
+                payload: response.data
+            });
             })
-            .catch((error) => {
-                dispatch({
-                    type: GET_USERS_REJECTED,
-                    payload: error
-                });
+            .catch((error) => {dispatch({
+                type: GET_USERS_REJECTED,
+                payload: error
+            });
             });
     }
 

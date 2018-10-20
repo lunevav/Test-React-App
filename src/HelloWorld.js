@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 
 class HelloWorld extends Component {
     render() {
+        console.log(this.props);
         return (
             <div className="hello-world">
-                <h1>{this.props.data}</h1>
             </div>
         );
     }
