@@ -30,14 +30,18 @@ class Table extends Component {
         const activeRows = this.state.activeRowID;
 
         for (let i = 0; i < array.length; i++) {
-            if (activeRows.includes(array[i])) {
-                delete array[i];
+            if (activeRows.includes(array[i].id)) {
+                console.log('deleted - ', this.props.data[i]);
+                array.splice(i-- ,1);
             }
 
         };
 
         this.setState({
             myUserList: array
+        });
+        this.setState({
+            activeRowID: []
         });
 
 
@@ -63,7 +67,7 @@ class Table extends Component {
     }
 
     render() {
-        console.log(this.state.activeRowID)
+        console.log("activeRowID=", this.state.activeRowID)
         const { data } = this.props;
         const headerColumnNames = this.state.myUserList.length > 0 ? Object.keys(this.state.myUserList[0]) : [];
         headerColumnNames.unshift('checkbox');
