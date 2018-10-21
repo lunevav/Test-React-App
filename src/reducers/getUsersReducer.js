@@ -37,6 +37,13 @@ export function getUsersReducer(state = initialState, action) {
                 error: action.payload
             }
         }
+
+        // case FILTER: {
+        //     return {
+        //         ...state,
+        //         response: state.filter(val => 2 === action.paylod)
+        //     }
+        // }
         default: {
             return state;
         }
