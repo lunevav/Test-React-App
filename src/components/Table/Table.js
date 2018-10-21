@@ -47,7 +47,7 @@ class Table extends Component {
         const array = this.state.activeRowID;
         if (array.indexOf(value) > -1) {
             let indexToRemove = array.indexOf(value);
-            delete array[indexToRemove];
+            array.splice(indexToRemove, 1);
 
         } else {
             array.push(value);
