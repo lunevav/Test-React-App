@@ -9,14 +9,11 @@ class Table extends Component {
 
     constructor() {
         super();
-
         this.state = {
             activeRowID: [],
             myUserList: []
         }
-
     }
-
 
     componentWillReceiveProps(nextProps) {
         this.setState({
@@ -29,22 +26,23 @@ class Table extends Component {
         const array = this.state.myUserList;
         const activeRows = this.state.activeRowID;
 
+        const newArray = array.filter(val => !activeRows.includes(val.id));
+        console.log('chto za zalupa?')
         for (let i = 0; i < array.length; i++) {
             if (activeRows.includes(array[i].id)) {
-                console.log('deleted - ', this.props.data[i]);
                 array.splice(i-- ,1);
             }
-
         };
-
+        // const newArray = array.filter(val => !activeRows.includes(val.id));
+        // for (let i = 0; i < array.length; i++){
+        //     if (array[i]==newArray[i]) console.log(true);
+        // }
         this.setState({
-            myUserList: array
+            myUserList: newArray
         });
         this.setState({
             activeRowID: []
         });
-
-
     }
 
     activeRowHanlder = (value) => {
@@ -52,22 +50,16 @@ class Table extends Component {
         if (array.indexOf(value) > -1) {
             let indexToRemove = array.indexOf(value);
             array.splice(indexToRemove, 1);
-
         } else {
             array.push(value);
-
         }
-
-        localStorage.setItem('activeUsers', array);
         this.setState({
             activeRowID: array
         });
-
-
     }
 
     render() {
-        console.log("activeRowID=", this.state.activeRowID)
+        console.log('[RENDER]');
         const { data } = this.props;
         const headerColumnNames = this.state.myUserList.length > 0 ? Object.keys(this.state.myUserList[0]) : [];
         headerColumnNames.unshift('checkbox');
@@ -78,6 +70,10 @@ class Table extends Component {
                     style={{ display: this.state.activeRowID.length > 1 ? "block" : "none"}}
                     onClick={this.deleteFromTable}
                 >MULTIPLY DELETE</button>
+                <button
+                    disabled
+                >RESTORE DELETED ITEMS
+                </button>
                 <table className="rwd-table">
                     <TableHeader
                         activeColumns={activeColumns}
