@@ -20,7 +20,7 @@ class Table extends Component {
             myUserList: nextProps.data
         });
     }
-    
+
     deleteFromTable = () => {
         const array = this.state.myUserList;
         const activeRows = this.state.activeRowID;
