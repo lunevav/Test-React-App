@@ -11,7 +11,8 @@ class Table extends Component {
         super();
         this.state = {
             activeRowID: [],
-            myUserList: []
+            myUserList: [],
+            searchValue: ""
         }
     }
 
@@ -26,9 +27,7 @@ class Table extends Component {
         const activeRows = this.state.activeRowID;
 
         this.setState({
-            myUserList: array.filter(val => !activeRows.includes(val.id))
-        });
-        this.setState({
+            myUserList: array.filter(val => !activeRows.includes(val.id)),
             activeRowID: []
         });
     }
@@ -46,13 +45,24 @@ class Table extends Component {
         });
     }
 
+    searchItem = (e) => {
+        const { value } = e.target;
+        this.setState({
+            searchValue: value
+        })
+
+    }
+
     render() {
-        const { data } = this.props;
         const headerColumnNames = this.state.myUserList.length > 0 ? Object.keys(this.state.myUserList[0]) : [];
         headerColumnNames.unshift('checkbox');
         const activeColumns = ['checkbox', 'id', 'title'];
         return (
             <div>
+                <input type="text"
+                       id="searchInput"
+                       onChange={this.searchItem}
+                />
                 <button
                     style={{ display: this.state.activeRowID.length > 1 ? "block" : "none"}}
                     onClick={this.deleteFromTable}
