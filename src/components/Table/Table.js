@@ -49,8 +49,7 @@ class Table extends Component {
         const { value } = e.target;
         this.setState({
             searchValue: value
-        })
-
+        });
     }
 
     render() {
@@ -60,7 +59,6 @@ class Table extends Component {
         return (
             <div>
                 <input type="text"
-                       id="searchInput"
                        onChange={this.searchItem}
                 />
                 <button
@@ -80,7 +78,8 @@ class Table extends Component {
                     <TableBody
                         activeRowID={this.state.activeRowID}
                         activeRowHanlder={this.activeRowHanlder}
-                        data={this.state.myUserList.length > 0 ? this.state.myUserList : []}
+                        data={this.state.myUserList.length > 0 ? this.state.myUserList
+                            .filter(value => (value.title.includes(this.state.searchValue) || value.id == this.state.searchValue)) : []}
                         isCheckboxActive={activeColumns.indexOf('checkbox') > -1}
                     >
                     </TableBody>
