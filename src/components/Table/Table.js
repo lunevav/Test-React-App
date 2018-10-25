@@ -79,7 +79,10 @@ class Table extends Component {
                         activeRowID={this.state.activeRowID}
                         activeRowHanlder={this.activeRowHanlder}
                         data={this.state.myUserList.length > 0 ? this.state.myUserList
-                            .filter(value => (value.title.includes(this.state.searchValue) || value.id == this.state.searchValue)) : []}
+                            .filter(value => (
+                                value.title.includes(this.state.searchValue) ||
+                                value.id.toString().includes(this.state.searchValue.toString())
+                            )) : []}
                         isCheckboxActive={activeColumns.indexOf('checkbox') > -1}
                     >
                     </TableBody>
