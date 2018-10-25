@@ -2,7 +2,7 @@ import {
     GET_USERS_PENDING,
     GET_USERS_REJECTED,
     GET_USERS_SUCCESS,
-    GET_USERS_TO_INITIAL
+    // GET_USERS_TO_INITIAL
 } from '../ACTION_TYPES/ACTION_TYPES';
 
 const initialState = {
